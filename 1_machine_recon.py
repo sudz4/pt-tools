@@ -6,21 +6,21 @@ import netifaces
 import urllib.request
 import psutil
 
-# Get hostname and local IP address
+# GET hostname and local IP address
 hostname = socket.gethostname()
 local_ip = socket.gethostbyname(hostname)
 
-# Get public IP address
+# GET public IP address
 public_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')
 
-# Get public IPv6 addresses
+# GET public IPv6 addresses
 ipv6_addresses = []
 try:
     ipv6_addresses = socket.getaddrinfo(socket.getfqdn(), None, socket.AF_INET6)[0][4]
 except:
     pass
 
-# Get network interface information
+# GET network interface information
 ifaces = netifaces.interfaces()
 for iface in ifaces:
     try:
@@ -32,27 +32,27 @@ for iface in ifaces:
                 broadcast = ipv4['broadcast']
                 mac_addr = fcntl.ioctl(socket.socket(socket.AF_INET, socket.SOCK_DGRAM), 0x8927, struct.pack('256s', bytes(iface[:15], 'utf-8')))[18:24]
                 mac_addr = ':'.join(['{:02x}'.format(x) for x in mac_addr])
-                hostname_ip = ipv4['addr'] # get hostname IP addresss
+                hostname_ip = ipv4['addr'] # GETs hostname IP addresss
                 break
     except:
         pass
 
-# Get operating system information
+# GET operating system information
 os_name = platform.system()
 os_release = platform.release()
 os_version = platform.version()
 
-# Get CPU information
+# GET CPU information
 cpu_count = psutil.cpu_count(logical=False)
 cpu_freq = psutil.cpu_freq().current if psutil.cpu_freq() else 'N/A'
 cpu_temp = psutil.sensors_temperatures().get('coretemp')[0].current if 'coretemp' in psutil.sensors_temperatures() else 'N/A'
 
-# Get memory information
+# GET memory information
 mem_total = round(psutil.virtual_memory().total / (1024 ** 3), 2)
 mem_used = round(psutil.virtual_memory().used / (1024 ** 3), 2)
 mem_free = round(psutil.virtual_memory().free / (1024 ** 3), 2)
 
-# Print network, operating system, CPU, and memory information
+# print network, operating system, CPU, and memory information
 print('Hostname: {}'.format(hostname))
 print('Hostname IP Address (IPv4): {}'.format(hostname_ip)) # print hostname IP address
 print('Local IP Address (IPv4): {}'.format(local_ip))
@@ -74,11 +74,7 @@ print('Memory Used (GB): {}'.format(mem_used))
 print('Memory Free (GB): {}'.format(mem_free))
 
 
-
-
-
-
-
+####---->END OF PROGRAM<----####
 
 
 """
